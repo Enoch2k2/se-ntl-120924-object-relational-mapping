@@ -1,4 +1,5 @@
 from __init__ import CONN, CURSOR
+import ipdb
 
 class Pet:
   def __init__(self, name, species, owner_id=None, id=None):
@@ -6,6 +7,28 @@ class Pet:
     self.species = species
     self.id = id
     self.owner_id = owner_id
+
+  @property
+  def name(self):
+    return self._name
+  
+  @name.setter
+  def name(self, name):
+    if (type(name) == str and len(name) > 0):
+      self._name = name
+    else:
+      raise Exception("Must have a name and name should be a string")
+    
+  @property
+  def species(self):
+    return self._species
+  
+  @species.setter
+  def species(self, species):
+    if (type(species) == str and len(species) > 0):
+      self._species = species
+    else:
+      raise Exception("Must have a species and species should be a string")
 
 
   def save(self):

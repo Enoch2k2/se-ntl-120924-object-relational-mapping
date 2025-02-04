@@ -1,9 +1,21 @@
 from __init__ import CURSOR, CONN
+import ipdb
 
 class Owner:
   def __init__(self, name, id=None):
     self.name = name
     self.id = id
+
+  @property
+  def name(self):
+    return self._name
+  
+  @name.setter
+  def name(self, name):
+    if (type(name) == str and len(name) > 0):
+      self._name = name
+    else:
+      raise Exception("Must have a name and name should be a string")
 
   def save(self):
     if not self.id:
@@ -78,7 +90,10 @@ class Owner:
     '''
 
     row = CURSOR.execute(sql, (id,)).fetchone()
-    return cls.create_from_row(row)
+    if row:
+      return cls.create_from_row(row)
+    else:
+      return None
   
   @classmethod
   def all(cls):
@@ -92,7 +107,11 @@ class Owner:
   def create_from_row(cls, row):
     return Owner(id=row[0], name=row[1])
 
-
+  @classmethod
+  def create(cls, name):
+    owner = cls(name=name)
+    owner.save()
+    return owner
 
   def __repr__(self):
     return f'<Owner id={self.id} name="{self.name}">'
