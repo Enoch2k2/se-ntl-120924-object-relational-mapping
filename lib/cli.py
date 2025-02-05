@@ -85,22 +85,22 @@ class Cli:
       pause()
       self.owner_menu(owner)
     elif user_input == "2":
-      print("Owner Adopt")
+      self.adopt_pet(owner)
       line_space()
       pause()
       self.owner_menu(owner)
     elif user_input == "3":
-      print("Owner UnAdopt")
+      self.unadopt_pet(owner)
       line_space()
       pause()
       self.owner_menu(owner)
     elif user_input == "4":
-      print("View All Pets")
+      self.print_pets()
       line_space()
       pause()
       self.owner_menu(owner)
     elif user_input == "5":
-      print("Select Pet")
+      self.select_pet_details()
       line_space()
       pause()
       self.owner_menu(owner)
@@ -196,4 +196,83 @@ class Cli:
     line_space()
     print("----------------")
 
-    
+  def adopt_pet(self, owner):
+    clear()
+    print("====================")
+    print(f"||  {owner.name} Adopt Pet  ||")
+    print("====================")
+    line_space()
+    try:
+      pet_name = input("Enter Pet Name: ")
+      pet_species = input("Enter Pet Species: ")
+      pet = Pet.create(name=pet_name, species=pet_species)
+      pet.owner = owner
+      clear()
+      print(f'{pet.name} has been adopted')
+    except Exception as error:
+      clear()
+      print(error)
+
+  def unadopt_pet(self, owner):
+    clear()
+    print("====================")
+    print(f"||  {owner.name} Unadopt Pet  ||")
+    print("====================")
+    line_space()
+    pet_id = input("Enter Pet ID here: ")
+    try:
+      found_pets = [pet for pet in owner.pets if pet.id == int(pet_id)]
+      if len(found_pets) > 0:
+        pet = found_pets[0]
+        pet.delete()
+        clear()
+        print(f'{pet.name} has been unadopted')
+      else:
+        clear()
+        print('Pet does not belong to you')
+    except:
+      clear()
+      print("Something went wrong, try again")
+
+  def print_pets(self):
+    clear()
+    print("====================")
+    print("|| Listing Pets ||")
+    print("====================")
+    for pet in Pet.all():
+      line_space()
+      self.print_pet_details(pet)
+
+  def select_pet_details(self):
+    clear()
+    print("====================")
+    print("|| Pet Details ||")
+    print("====================")
+    line_space()
+    pet_id = input("Enter Pet ID Here: ")
+    try:
+      found_pets = [pet for pet in Pet.all() if pet.id == int(pet_id)]
+      if len(found_pets) > 0:
+        pet = found_pets[0]
+        clear()
+        print("----------------")
+        self.selected_pet_details(pet)
+      else:
+        clear()
+        print('Pet doesn\'t exist')
+    except:
+      clear()
+      print("Something went wrong, try again")
+
+  def selected_pet_details(self, pet):
+    line_space()
+    print("Pet Info")
+    line_space()
+    self.print_pet_details(pet)
+    line_space()
+    print("Pet Owner Info")
+    line_space()
+    print(f'Owner: {pet.owner.name}')
+    print(f'Owner ID: {pet.owner.id}')
+    line_space()
+    print("----------------")

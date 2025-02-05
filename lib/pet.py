@@ -133,8 +133,12 @@ class Pet:
   @classmethod
   def create_from_row(cls, row):
     return Pet(id=row[0], name=row[1], species=row[2], owner_id=row[3])
-
-
-
+  
+  @classmethod
+  def create(cls, name, species, owner_id=None):
+    pet = cls(name=name, species=species, owner_id=owner_id)
+    pet.save()
+    return pet
+  
   def __repr__(self):
     return f'<Pet id={self.id} name="{self.name}" species="{self.species}" owner_id={self.owner_id}>'
