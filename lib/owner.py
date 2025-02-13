@@ -1,5 +1,4 @@
 from __init__ import CURSOR, CONN
-import ipdb
 
 class Owner:
   def __init__(self, name, id=None):
@@ -54,6 +53,9 @@ class Owner:
 
     
   def delete(self):
+    for pet in self.pets:
+      pet.delete()
+
     sql = '''
       DELETE FROM owners
       WHERE id = (?)

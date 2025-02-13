@@ -1,8 +1,9 @@
 from pet import Pet
 from owner import Owner
-import ipdb
 
 from helpers import clear, pause, line_space, invalid_choice
+
+import ipdb
 
 class Cli:
   def start(self):
@@ -272,7 +273,11 @@ class Cli:
     line_space()
     print("Pet Owner Info")
     line_space()
-    print(f'Owner: {pet.owner.name}')
-    print(f'Owner ID: {pet.owner.id}')
+    # ipdb.set_trace()
+    if pet.owner:
+      print(f'Owner: {pet.owner.name}')
+      print(f'Owner ID: {pet.owner.id} ')
+    else:
+      print('Pet not adopted')
     line_space()
     print("----------------")

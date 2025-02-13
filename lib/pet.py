@@ -1,4 +1,5 @@
 from __init__ import CONN, CURSOR
+
 import ipdb
 
 class Pet:
@@ -65,7 +66,9 @@ class Pet:
     '''
 
     row = CURSOR.execute(sql, (self.owner_id,)).fetchone()
-    return Owner.create_from_row(row)
+    if row:
+      return Owner.create_from_row(row)
+    
   
   @owner.setter
   def owner(self, owner):
