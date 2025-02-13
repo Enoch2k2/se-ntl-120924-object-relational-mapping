@@ -2,15 +2,16 @@ from pet import Pet
 from owner import Owner
 
 from helpers import clear, pause, line_space, invalid_choice
-
+from simple_term_menu import TerminalMenu
+from rich import print
 import ipdb
 
 class Cli:
   def start(self):
     clear()
-    print("=======================================")
-    print("|| Welcome to the Flatiron Pet Shop! ||")
-    print("=======================================")
+    print("[bold magenta]=======================================[/bold magenta]")
+    print("[bold magenta]||[/bold magenta] [bright_cyan]Welcome to the Flatiron Pet Shop![/bright_cyan] [bold magenta]||[/bold magenta]")
+    print("[bold magenta]=======================================[/bold magenta]")
     line_space()
     pause()
 
@@ -22,37 +23,42 @@ class Cli:
     print("|| Pet Shop Menu ||")
     print("===================")
     line_space()
-    print("1. List All Owners")
-    print("2. Create Owner")
-    print("3. Select Owner")
-    print("4. Delete Owner")
-    print("'exit' to exit program")
-    line_space()
-    self.menu_selection()
+    # print("1. List All Owners")
+    # print("2. Create Owner")
+    # print("3. Select Owner")
+    # print("4. Delete Owner")
+    # print("'exit' to exit program")
+    options = ["List All Owners", "Create Owner", "Select Owner", "Delete Owner", "Exit Program"]
+    terminal_menu = TerminalMenu(options, menu_highlight_style=("fg_blue",))
+    menu_entry_index = terminal_menu.show()
+    if menu_entry_index != None:
+      self.menu_selection(menu_entry_index)
+    else:
+      self.menu()
+
   
-  def menu_selection(self):
-    user_input = input("Enter Selection: ")
-    if user_input == "1":
+  def menu_selection(self, user_input):
+    if user_input == 0:
       self.list_owners()
       line_space()
       pause()
       self.menu()
-    elif user_input == "2":
+    elif user_input == 1:
       self.create_owner()
       line_space()
       pause()
       self.menu()
-    elif user_input == "3":
+    elif user_input == 2:
       self.select_owner()
       line_space()
       pause()
       self.menu()
-    elif user_input == "4":
+    elif user_input == 3:
       self.delete_owner()
       line_space()
       pause()
       self.menu()
-    elif user_input == "exit":
+    elif user_input == 4:
       clear()
       print("Goodbye, have a great day!")
       line_space()
