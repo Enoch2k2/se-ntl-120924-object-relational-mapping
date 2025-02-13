@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 ipdb = "*"
+simple-term-menu = "*"
 
 [dev-packages]
 
